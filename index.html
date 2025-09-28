@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EtHOS - Electronics and Hardware Oriented Society</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #00ff88;
+            letter-spacing: -0.02em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            padding: 1rem 2rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #00ff88, #0066ff);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 30% 40%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 102, 255, 0.1) 0%, transparent 50%),
+                        linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 1000px;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(4rem, 12vw, 12rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, #ffffff 0%, #00ff88 50%, #0066ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(100px) scale(0.8);
+            text-shadow: 0 0 50px rgba(0, 255, 136, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2.2rem);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(50px);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(50px);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #00ff88, #0066ff);
+            border: none;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.4);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid #00ff88;
+            color: #00ff88;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        /* Electronics Animation Canvas */
+        .electronics-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .circuit-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            height: 1px;
+            opacity: 0;
+        }
+
+        .component {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .component.resistor {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border-radius: 4px;
+            width: 30px;
+            height: 8px;
+        }
+
+        .component.capacitor {
+            background: #4ecdc4;
+            border-radius: 2px;
+            width: 15px;
+            height: 25px;
+        }
+
+        .component.ic {
+            background: #333;
+            border: 2px solid #00ff88;
+            border-radius: 3px;
+            width: 40px;
+            height: 20px;
+        }
+
+        .component.led {
+            background: radial-gradient(circle, #ff4757, #ff3742);
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.6);
+        }
+
+        .component:hover {
+            transform: scale(1.3);
+            opacity: 1 !important;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00ff88;
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px #00ff88;
+        }
+
+        /* Content Sections */
+        .content-area {
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section {
+            padding: 8rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.7;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+        /* Enhanced Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .card:hover::before,
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 255, 136, 0.5);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3),
+                        0 0 50px rgba(0, 255, 136, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00ff88, #0066ff);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .card-description {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            flex-wrap: wrap;
+        }
+
+        /* Form Styling */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #00ff88;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .form-input, .form-input select {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ff88;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00ff88, #0066ff);
+            border: none;
+            padding: 1.2rem 2rem;
+            font-size: 1.1rem;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Status Messages */
+        .status-message {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-message.success {
+            background: linear-gradient(135deg, #00ff88, #00cc77);
+            border: 1px solid rgba(0, 255, 136, 0.5);
+        }
+
+        .status-message.error {
+            background: linear-gradient(135deg, #ff4444, #cc3333);
+            border: 1px solid rgba(255, 68, 68, 0.5);
+        }
+
+        .status-message.show {
+            transform: translateX(0);
+        }
+
+        /* Loading Animation */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(0, 255, 136, 0.3);
+            border-top: 3px solid #00ff88;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .loader-text {
+            color: #00ff88;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section {
+                padding: 4rem 2rem;
+            }
+            
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .card:hover {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Dropdown Styling */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+
+        .dropdown a:hover {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading EtHOS...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">EtHOS</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <div class="dropdown">
+                        <a href="#" onclick="showProjectDetails('iot-home')">IoT Systems</a>
+                        <a href="#" onclick="showProjectDetails('robotics-arm')">Robotics</a>
+                        <a href="#" onclick="showProjectDetails('drone-system')">Drones</a>
+                        <a href="#" onclick="showProjectDetails('solar-tracker')">Energy</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#events" class="nav-link">Events</a>
+                    <div class="dropdown">
+                        <a href="#" onclick="showEventDetails('upcoming')">Upcoming</a>
+                        <a href="#" onclick="showEventDetails('workshops')">Workshops</a>
+                        <a href="#" onclick="showEventDetails('competitions')">Competitions</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#members" class="nav-link">Team</a>
+                    <div class="dropdown">
+                        <a href="#" onclick="showMemberCategory('leadership')">Leadership</a>
+                        <a href="#" onclick="showMemberCategory('technical')">Technical Team</a>
+                        <a href="#" onclick="showMemberCategory('alumni')">Alumni</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#join" class="nav-link">Join Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="content-area">
+        <!-- Enhanced Home Section -->
+        <section id="home" class="page-section active">
+            <div class="hero">
+                <div class="electronics-canvas" id="electronicsCanvas"></div>
+                <div class="hero-content">
+                    <h1 class="hero-title">EtHOS</h1>
+                    <p class="hero-subtitle">Electronics and Hardware Oriented Society</p>
+                    <p class="hero-description">Where Innovation Meets Engineering Excellence</p>
+                    <div class="cta-group">
+                        <button class="cta-button" onclick="navigateToSection('projects')">
+                            <i class="fas fa-rocket"></i> Explore Projects
+                        </button>
+                        <button class="cta-button cta-secondary" onclick="navigateToSection('join')">
+                            <i class="fas fa-users"></i> Join Our Community
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="page-section">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Our Projects</h2>
+                    <p class="section-subtitle">Cutting-edge innovations that shape the future of electronics and hardware engineering</p>
+                </div>
+                <div class="grid grid-2">
+                    <div class="card" onclick="showProjectDetails('iot-home')">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <h3 class="card-title">IoT Smart Home System</h3>
+                        </div>
+                        <p class="card-description">
+                            Advanced home automation system with voice control, sensor integration, and mobile app connectivity. Features real-time monitoring, predictive algorithms, and seamless device integration.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-users"></i> 5 Members</span>
+                            <span><i class="fas fa-calendar"></i> 6 Months</span>
+                            <span><i class="fas fa-microchip"></i> ESP32</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showProjectDetails('robotics-arm')">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="card-title">6-DOF Robotic Arm</h3>
+                        </div>
+                        <p class="card-description">
+                            Precision robotic arm with computer vision capabilities for industrial applications. Features force feedback, path planning, and object recognition systems.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-users"></i> 4 Members</span>
+                            <span><i class="fas fa-calendar"></i> 4 Months</span>
+                            <span><i class="fas fa-eye"></i> Computer Vision</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showProjectDetails('drone-system')">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-helicopter"></i>
+                            </div>
+                            <h3 class="card-title">Autonomous Drone System</h3>
+                        </div>
+                        <p class="card-description">
+                            GPS-guided quadcopter with obstacle avoidance and real-time video transmission. Features waypoint navigation and emergency protocols.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-users"></i> 6 Members</span>
+                            <span><i class="fas fa-calendar"></i> 8 Months</span>
+                            <span><i class="fas fa-satellite"></i> GPS Navigation</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showProjectDetails('solar-tracker')">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-solar-panel"></i>
+                            </div>
+                            <h3 class="card-title">Solar Panel Tracker</h3>
+                        </div>
+                        <p class="card-description">
+                            Dual-axis solar tracking system that maximizes energy efficiency throughout the day. Features weather protection and energy analytics.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-users"></i> 3 Members</span>
+                            <span><i class="fas fa-calendar"></i> 3 Months</span>
+                            <span><i class="fas fa-leaf"></i> Green Energy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="page-section">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Events & Workshops</h2>
+                    <p class="section-subtitle">Learn, create, and innovate with our hands-on workshops and technical events</p>
+                </div>
+                <div class="grid grid-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <h3 class="card-title">Arduino Workshop</h3>
+                        </div>
+                        <p class="card-description">
+                            Comprehensive Arduino workshop covering basics to advanced projects. Perfect for beginners and intermediate learners.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-clock"></i> Oct 15, 2025</span>
+                            <span><i class="fas fa-users"></i> 50 Seats</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <h3 class="card-title">PCB Design Masterclass</h3>
+                        </div>
+                        <p class="card-description">
+                            Advanced PCB design techniques using industry-standard tools. From schematic to manufacturing processes.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-clock"></i> Nov 2, 2025</span>
+                            <span><i class="fas fa-users"></i> 30 Seats</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3 class="card-title">Tech Symposium 2025</h3>
+                        </div>
+                        <p class="card-description">
+                            Annual technical symposium with guest speakers, project exhibitions, and networking opportunities.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-clock"></i> Dec 10, 2025</span>
+                            <span><i class="fas fa-users"></i> 200+ Attendees</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Members Section -->
+        <section id="members" class="page-section">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Our Team</h2>
+                    <p class="section-subtitle">Meet the passionate individuals driving innovation in electronics and hardware</p>
+                </div>
+                <div class="grid grid-3">
+                    <div class="card" onclick="showMemberDetails('alex-chen')">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); color: white; font-size: 1.2rem; font-weight: bold;">
+                                AC
+                            </div>
+                            <div>
+                                <h3 class="card-title">Alex Chen</h3>
+                                <p style="color: #00ff88; font-size: 0.9rem;">President & Hardware Lead</p>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Senior Electronics Engineering student specializing in embedded systems and IoT development. Leads technical initiatives and mentors junior members.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-microchip"></i> Embedded Systems</span>
+                            <span><i class="fas fa-award"></i> 4 Years Experience</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showMemberDetails('sarah-johnson')">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; font-size: 1.2rem; font-weight: bold;">
+                                SJ
+                            </div>
+                            <div>
+                                <h3 class="card-title">Sarah Johnson</h3>
+                                <p style="color: #00ff88; font-size: 0.9rem;">VP & Software Lead</p>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Computer Science and Robotics expert specializing in robotics programming and computer vision applications.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-robot"></i> Robotics</span>
+                            <span><i class="fas fa-eye"></i> Computer Vision</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showMemberDetails('mike-rodriguez')">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; font-size: 1.2rem; font-weight: bold;">
+                                MR
+                            </div>
+                            <div>
+                                <h3 class="card-title">Mike Rodriguez</h3>
+                                <p style="color: #00ff88; font-size: 0.9rem;">Technical Secretary</p>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Electrical Engineering student specializing in PCB design and electronics prototyping. Expert in circuit analysis and hardware optimization.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-circuit-board"></i> PCB Design</span>
+                            <span><i class="fas fa-tools"></i> Prototyping</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showMemberDetails('priya-patel')">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #ffecd2, #fcb69f); color: #333; font-size: 1.2rem; font-weight: bold;">
+                                PP
+                            </div>
+                            <div>
+                                <h3 class="card-title">Priya Patel</h3>
+                                <p style="color: #00ff88; font-size: 0.9rem;">Event Coordinator</p>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Renewable Energy Engineering student coordinating workshops and events. Specializes in power electronics and sustainable systems.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-solar-panel"></i> Green Energy</span>
+                            <span><i class="fas fa-calendar-alt"></i> Event Planning</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showMemberDetails('david-kim')">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; font-size: 1.2rem; font-weight: bold;">
+                                DK
+                            </div>
+                            <div>
+                                <h3 class="card-title">David Kim</h3>
+                                <p style="color: #00ff88; font-size: 0.9rem;">Treasurer</p>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Communications Engineering student managing finances and researching signal processing and communication systems.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-signal"></i> Signal Processing</span>
+                            <span><i class="fas fa-chart-line"></i> Finance</span>
+                        </div>
+                    </div>
+                    <div class="card" onclick="showMemberDetails('emma-wilson')">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 1.2rem; font-weight: bold;">
+                                EW
+                            </div>
+                            <div>
+                                <h3 class="card-title">Emma Wilson</h3>
+                                <p style="color: #00ff88; font-size: 0.9rem;">Web Developer</p>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Computer Engineering student developing digital platforms. Expert in full-stack development and IoT web interfaces.
+                        </p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-code"></i> Full-Stack Dev</span>
+                            <span><i class="fas fa-globe"></i> Web Platforms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Us Section -->
+        <section id="join" class="page-section">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Join EtHOS</h2>
+                    <p class="section-subtitle">Become part of our innovative community and shape the future of technology</p>
+                </div>
+                <div class="form-container">
+                    <form id="joinForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="joinName">Full Name</label>
+                                <input type="text" id="joinName" name="name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="joinEmail">Email</label>
+                                <input type="email" id="joinEmail" name="email" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="joinPhone">Phone Number</label>
+                                <input type="tel" id="joinPhone" name="phone" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="joinYear">Academic Year</label>
+                                <select id="joinYear" name="year" class="form-input" required>
+                                    <option value="">Select Year</option>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                    <option value="4th Year">4th Year</option>
+                                    <option value="Graduate">Graduate</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="joinInterest">Area of Interest</label>
+                            <select id="joinInterest" name="interest" class="form-input" required>
+                                <option value="">Select Interest</option>
+                                <option value="Embedded Systems">Embedded Systems</option>
+                                <option value="IoT Development">IoT Development</option>
+                                <option value="Robotics">Robotics</option>
+                                <option value="PCB Design">PCB Design</option>
+                                <option value="Power Electronics">Power Electronics</option>
+                                <option value="Signal Processing">Signal Processing</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="joinExperience">Previous Experience</label>
+                            <textarea id="joinExperience" name="experience" class="form-input form-textarea" placeholder="Tell us about your experience with electronics and hardware projects..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="joinMotivation">Why join EtHOS?</label>
+                            <textarea id="joinMotivation" name="motivation" class="form-input form-textarea" required placeholder="Share your motivation and what you hope to achieve..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="page-section">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="section-subtitle">Have questions or want to collaborate? We'd love to hear from you</p>
+                </div>
+                <div class="form-container">
+                    <form id="contactForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="contactName">Name</label>
+                                <input type="text" id="contactName" name="name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="contactEmail">Email</label>
+                                <input type="email" id="contactEmail" name="email" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contactSubject">Subject</label>
+                            <input type="text" id="contactSubject" name="subject" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contactMessage">Message</label>
+                            <textarea id="contactMessage" name="message" class="form-input form-textarea" required placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-envelope"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Status Message -->
+    <div id="statusMessage" class="status-message"></div>
+
+    <script>
+        // Global state
+        let currentSection = 'home';
+        let isAnimating = false;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loader with animation
+            setTimeout(() => {
+                const loader = document.getElementById('pageLoader');
+                anime({
+                    targets: loader,
+                    opacity: [1, 0],
+                    duration: 800,
+                    easing: 'easeOutExpo',
+                    complete: () => {
+                        loader.style.display = 'none';
+                    }
+                });
+            }, 2000);
+
+            // Initialize everything
+            initializeHeroAnimations();
+            createElectronicsCanvas();
+            setupEventListeners();
+        });
+
+        // Enhanced Hero Animations - Anime.js Official Website Style
+        function initializeHeroAnimations() {
+            // Main hero timeline
+            const heroTimeline = anime.timeline({
+                easing: 'easeOutExpo'
+            });
+
+            heroTimeline
+                .add({
+                    targets: '.hero-title',
+                    opacity: [0, 1],
+                    translateY: [100, 0],
+                    scale: [0.8, 1],
+                    rotateZ: [5, 0],
+                    duration: 1500,
+                    delay: 500
+                })
+                .add({
+                    targets: '.hero-subtitle',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 1000,
+                }, '-=1000')
+                .add({
+                    targets: '.hero-description',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 1000,
+                }, '-=700')
+                .add({
+                    targets: '.cta-group',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    scale: [0.8, 1],
+                    duration: 1000,
+                }, '-=500');
+
+            // Continuous floating animation for title
+            anime({
+                targets: '.hero-title',
+                translateY: [-5, 5],
+                rotateZ: [-0.5, 0.5],
+                duration: 4000,
+                loop: true,
+                direction: 'alternate',
+                easing: 'easeInOutSine',
+                delay: 2000
+            });
+        }
+
+        // Create Electronics Canvas with Components
+        function createElectronicsCanvas() {
+            const canvas = document.getElementById('electronicsCanvas');
+            if (!canvas) return;
+
+            // Create circuit lines
+            createCircuitLines(canvas);
+            
+            // Create electronic components
+            createElectronicComponents(canvas);
+            
+            // Create floating particles
+            createFloatingParticles(canvas);
+        }
+
+        function createCircuitLines(canvas) {
+            const numLines = 15;
+            for (let i = 0; i < numLines; i++) {
+                const line = document.createElement('div');
+                line.className = 'circuit-line';
+                
+                const isHorizontal = Math.random() > 0.5;
+                const length = Math.random() * 300 + 100;
+                
+                if (isHorizontal) {
+                    line.style.width = length + 'px';
+                    line.style.height = '1px';
+                    line.style.left = Math.random() * (window.innerWidth - length) + 'px';
+                    line.style.top = Math.random() * window.innerHeight + 'px';
+                } else {
+                    line.style.width = '1px';
+                    line.style.height = length + 'px';
+                    line.style.left = Math.random() * window.innerWidth + 'px';
+                    line.style.top = Math.random() * (window.innerHeight - length) + 'px';
+                    line.style.background = 'linear-gradient(0deg, transparent, #00ff88, transparent)';
+                }
+                
+                canvas.appendChild(line);
+                
+                // Animate circuit lines
+                anime({
+                    targets: line,
+                    opacity: [0, 0.6, 0],
+                    duration: anime.random(3000, 8000),
+                    loop: true,
+                    delay: anime.random(0, 5000),
+                    easing: 'easeInOutSine'
+                });
+            }
+        }
+
+        function createElectronicComponents(canvas) {
+            const components = [
+                { type: 'resistor', count: 12 },
+                { type: 'capacitor', count: 8 },
+                { type: 'ic', count: 6 },
+                { type: 'led', count: 15 }
+            ];
+            
+            components.forEach(comp => {
+                for (let i = 0; i < comp.count; i++) {
+                    const element = document.createElement('div');
+                    element.className = `component ${comp.type}`;
+                    element.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+                    element.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+                    element.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    canvas.appendChild(element);
+                    
+                    // Animate components
+                    anime({
+                        targets: element,
+                        opacity: [0, 0.4],
+                        scale: [0.8, 1],
+                        rotateZ: anime.random(-15, 15),
+                        duration: 2000,
+                        delay: anime.random(0, 3000),
+                        easing: 'easeOutElastic(1, .8)'
+                    });
+                    
+                    // Continuous gentle movement
+                    anime({
+                        targets: element,
+                        translateX: anime.random(-20, 20),
+                        translateY: anime.random(-20, 20),
+                        rotateZ: `+=${anime.random(-10, 10)}`,
+                        duration: anime.random(8000, 15000),
+                        loop: true,
+                        direction: 'alternate',
+                        easing: 'easeInOutSine',
+                        delay: anime.random(0, 5000)
+                    });
+                }
+            });
+        }
+
+        function createFloatingParticles(canvas) {
+            const numParticles = 30;
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = Math.random() * window.innerHeight + 'px';
+                
+                canvas.appendChild(particle);
+                
+                // Animate particles
+                anime({
+                    targets: particle,
+                    opacity: [0, 0.8, 0],
+                    scale: [0.5, 1.5, 0.5],
+                    translateX: anime.random(-200, 200),
+                    translateY: anime.random(-200, 200),
+                    duration: anime.random(4000, 12000),
+                    loop: true,
+                    easing: 'easeInOutSine',
+                    delay: anime.random(0, 8000)
+                });
+            }
+        }
+
+        // Enhanced Navigation
+        function navigateToSection(sectionId) {
+            if (isAnimating || currentSection === sectionId) return;
+            
+            isAnimating = true;
+            const currentEl = document.getElementById(currentSection);
+            const targetEl = document.getElementById(sectionId);
+
+            // Update nav active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + sectionId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Enhanced transition animations
+            anime({
+                targets: currentEl,
+                opacity: [1, 0],
+                translateX: [0, -100],
+                scale: [1, 0.95],
+                duration: 600,
+                easing: 'easeInExpo',
+                complete: () => {
+                    currentEl.classList.remove('active');
+                    targetEl.classList.add('active');
+                    
+                    anime({
+                        targets: targetEl,
+                        opacity: [0, 1],
+                        translateX: [100, 0],
+                        scale: [0.95, 1],
+                        duration: 800,
+                        easing: 'easeOutExpo',
+                        complete: () => {
+                            isAnimating = false;
+                            currentSection = sectionId;
+                            animateSectionContent(targetEl);
+                        }
+                    });
+                }
+            });
+        }
+
+        // Enhanced section content animations
+        function animateSectionContent(section) {
+            const cards = section.querySelectorAll('.card');
+            const titles = section.querySelectorAll('.section-title');
+            const subtitles = section.querySelectorAll('.section-subtitle');
+            
+            // Animate section headers
+            anime({
+                targets: titles,
+                opacity: [0, 1],
+                translateY: [50, 0],
+                scale: [0.9, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+            
+            anime({
+                targets: subtitles,
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 800,
+                delay: 200,
+                easing: 'easeOutExpo'
+            });
+            
+            // Animate cards with stagger
+            if (cards.length > 0) {
+                anime({
+                    targets: cards,
+                    opacity: [0, 1],
+                    translateY: [80, 0],
+                    scale: [0.8, 1],
+                    rotateZ: [2, 0],
+                    duration: 1000,
+                    delay: anime.stagger(150, {start: 400}),
+                    easing: 'easeOutExpo'
+                });
+            }
+        }
+
+        // Enhanced card hover effects
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.card')) {
+                const card = e.target.closest('.card');
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                
+                card.style.setProperty('--x', x + '%');
+                card.style.setProperty('--y', y + '%');
+            }
+        });
+
+        // Event listeners
+        function setupEventListeners() {
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        const sectionId = href.substring(1);
+                        navigateToSection(sectionId);
+                    }
+                });
+            });
+
+            // Form submissions with enhanced animations
+            document.getElementById('joinForm').addEventListener('submit', handleJoinForm);
+            document.getElementById('contactForm').addEventListener('submit', handleContactForm);
+
+            // Window resize handler for responsive canvas
+            window.addEventListener('resize', () => {
+                const canvas = document.getElementById('electronicsCanvas');
+                if (canvas) {
+                    canvas.innerHTML = '';
+                    createElectronicsCanvas();
+                }
+            });
+        }
+
+        // Enhanced form handlers with EmailJS integration
+        async function handleJoinForm(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Animate form submission
+            anime({
+                targets: '.submit-btn',
+                scale: [1, 0.95, 1],
+                duration: 300,
+                easing: 'easeInOutQuad'
+            });
+            
+            try {
+                // EmailJS integration (you'll need to configure this)
+                await emailjs.send('service_61cnx0l', 'join_template', {
+                    name: data.name,
+                    email: data.email,
+                    phone: data.phone,
+                    year: data.year,
+                    interest: data.interest,
+                    experience: data.experience,
+                    motivation: data.motivation
+                });
+                
+                showStatusMessage('Application submitted successfully! We\'ll contact you soon.', 'success');
+                form.reset();
+                
+                // Success animation
+                anime({
+                    targets: '.form-container',
+                    scale: [1, 1.02, 1],
+                    duration: 600,
+                    easing: 'easeOutElastic(1, .6)'
+                });
+                
+            } catch (error) {
+                showStatusMessage('There was an error submitting your application. Please try again.', 'error');
+            }
+        }
+
+        async function handleContactForm(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Animate form submission
+            anime({
+                targets: '.submit-btn',
+                scale: [1, 0.95, 1],
+                duration: 300,
+                easing: 'easeInOutQuad'
+            });
+            
+            try {
+                // EmailJS integration (you'll need to configure this)
+                await emailjs.send('YOUR_SERVICE_ID', 'contact_template', {
+                    name: data.name,
+                    email: data.email,
+                    subject: data.subject,
+                    message: data.message
+                });
+                
+                showStatusMessage('Message sent successfully! We\'ll get back to you soon.', 'success');
+                form.reset();
+                
+                // Success animation
+                anime({
+                    targets: '.form-container',
+                    scale: [1, 1.02, 1],
+                    duration: 600,
+                    easing: 'easeOutElastic(1, .6)'
+                });
+                
+            } catch (error) {
+                showStatusMessage('There was an error sending your message. Please try again.', 'error');
+            }
+        }
+
+        // Enhanced status message
+        function showStatusMessage(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            
+            // Animate in
+            anime({
+                targets: statusEl,
+                translateX: [400, 0],
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                duration: 600,
+                easing: 'easeOutExpo'
+            });
+            
+            // Animate out
+            setTimeout(() => {
+                anime({
+                    targets: statusEl,
+                    translateX: [0, 400],
+                    opacity: [1, 0],
+                    scale: [1, 0.8],
+                    duration: 400,
+                    easing: 'easeInExpo'
+                });
+            }, 4000);
+        }
+
+        // Project/Member detail functions
+        function showProjectDetails(projectId) {
+            const projects = {
+                'iot-home': {
+                    title: 'IoT Smart Home System',
+                    details: 'Comprehensive home automation with AI-powered learning algorithms, voice control, and seamless device integration. Features include predictive climate control, security monitoring, and energy optimization.'
+                },
+                'robotics-arm': {
+                    title: '6-DOF Robotic Arm Controller',
+                    details: 'Industrial-grade robotic arm with precision control, computer vision integration, and force feedback systems. Capable of complex manipulation tasks with sub-millimeter accuracy.'
+                },
+                'drone-system': {
+                    title: 'Autonomous Drone System',
+                    details: 'Advanced UAV platform with autonomous navigation, obstacle avoidance, and mission planning capabilities. Features long-range communication and real-time data processing.'
+                },
+                'solar-tracker': {
+                    title: 'Dual-Axis Solar Panel Tracker',
+                    details: 'Intelligent solar tracking system with weather prediction, maximum power point tracking, and remote monitoring. Increases energy efficiency by up to 35% compared to fixed installations.'
+                }
+            };
+            
+            const project = projects[projectId];
+            if (project) {
+                showStatusMessage(`Viewing ${project.title} - ${project.details}`, 'success');
+            }
+        }
+
+        function showMemberDetails(memberId) {
+            const members = {
+                'alex-chen': 'Alex Chen - President specializing in embedded systems and IoT development',
+                'sarah-johnson': 'Sarah Johnson - Vice President expert in robotics and computer vision',
+                'mike-rodriguez': 'Mike Rodriguez - Technical Secretary focusing on PCB design and prototyping',
+                'priya-patel': 'Priya Patel - Event Coordinator specializing in renewable energy systems',
+                'david-kim': 'David Kim - Treasurer expert in signal processing and communications',
+                'emma-wilson': 'Emma Wilson - Web Developer specializing in full-stack development'
+            };
+            
+            if (members[memberId]) {
+                showStatusMessage(`Team Member: ${members[memberId]}`, 'success');
+            }
+        }
+
+        function showEventDetails(eventType) {
+            const events = {
+                'upcoming': 'View all upcoming workshops, seminars, and technical events',
+                'workshops': 'Hands-on workshops covering Arduino, PCB design, and advanced electronics',
+                'competitions': 'Technical competitions and hackathons hosted by EtHOS'
+            };
+            
+            if (events[eventType]) {
+                showStatusMessage(`${eventType.charAt(0).toUpperCase() + eventType.slice(1)}: ${events[eventType]}`, 'success');
+            }
+        }
+
+        function showMemberCategory(category) {
+            const categories = {
+                'leadership': 'Executive leadership team and core organizers',
+                'technical': 'Technical team members and project leads',
+                'alumni': 'Distinguished alumni and their achievements'
+            };
+            
+            if (categories[category]) {
+                showStatusMessage(`${category.charAt(0).toUpperCase() + category.slice(1)}: ${categories[category]}`, 'success');
+            }
+        }
+
+        // Initialize particles on mouse movement
+        document.addEventListener('mousemove', (e) => {
+            if (currentSection === 'home' && Math.random() < 0.1) {
+                createMouseParticle(e.clientX, e.clientY);
+            }
+        });
+
+        function createMouseParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = '#00ff88';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '5';
+            particle.style.boxShadow = '0 0 10px #00ff88';
+            
+            document.body.appendChild(particle);
+            
+            anime({
+                targets: particle,
+                scale: [0, 1, 0],
+                opacity: [0, 1, 0],
+                translateY: -100,
+                translateX: anime.random(-50, 50),
+                duration: 2000,
+                easing: 'easeOutExpo',
+                complete: () => {
+                    particle.remove();
+                }
+            });
+        }
+
+        // Add loading EmailJS library dynamically
+        const emailJSScript = document.createElement('script');
+        emailJSScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js';
+        emailJSScript.onload = () => {
+            // Initialize EmailJS when loaded
+            if (typeof emailjs !== 'undefined') {
+                emailjs.init('hzLIRJxG_Bsi8_AzP'); // Replace with your EmailJS user ID
+            }
+        };
+        document.head.appendChild(emailJSScript);
+
+    </script>
+</body>
+</html>
